@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Kısaltıcı - Sonuç</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .url-box {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .success-message {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #45a049;
+            text-decoration: none;
+        }
+        .copy-btn {
+            background-color: #6c757d;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Kısaltıcı</h1>
+    
+    <div class="success-message">
+        <strong>Başarılı!</strong> URL'niz başarıyla kısaltıldı.
+    </div>
+    
+    <div class="card">
+        <h2>Kısaltılmış URL Oluşturuldu</h2>
+        
+        <p><strong>Orijinal URL:</strong></p>
+        <div class="url-box">
+            <a href="{{ object.original_url }}" target="_blank">{{ object.original_url }}</a>
+        </div>
+        
+        <p><strong>Kısa URL:</strong></p>
+        <div class="url-box">
+            <a href="{{ request.scheme }}://{{ request.get_host }}/{{ object.shortened_url }}" target="_blank" id="shortUrl">
+                {{ request.scheme }}://{{ request.get_host }}/{{ object.shortened_url }}
+            </a>
+            <button class="btn copy-btn" onclick="copyToClipboard()">Kopyala</button>
+        </div>
+        
+        <a href="{% url 'short_url_create' %}" class="btn">Yeni URL Kısalt</a>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            var url = document.getElementById("shortUrl").href;
+            navigator.clipboard.writeText(url).then(function() {
+                alert("URL panoya kopyalandı!");
+            });
+        }
+    </script>
+</body>
+</html>
